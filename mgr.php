@@ -1,12 +1,31 @@
 <?php
+function getArrays($target) {
+  $tmp = explode("!!!", $target);
+  $value = [];
+  $j=0;
+  for($i=0;$i<count($tmp);$i++)
+  {
+    if(!empty($tmp[$i]))
+    {
+      $value[$j]=$tmp[$i];
+      $j++;
+    }
+  }
+  //print_r($value);
+  return $value;
+}
 $categories = '';
 $sort = '';
 $search = '';
+$detail = '';
+$store = '';
+$ids = '';
 $categories = $_GET["categories"];
 $sort = $_GET["sort"];
 $search = $_GET["search"];
 $detail = $_GET["detail"];
 $ids = $_GET["ids"];
+$store = $_GET["store"];
 $res = '';
 $url = '';
 switch ($categories)
@@ -37,6 +56,9 @@ case '1':
   }else if(!empty($sort))
   {
 	  $url='https://congress.api.sunlightfoundation.com/legislators?fields=party,chamber,district,state,bioguide_id,last_name,first_name&state_name='.$sort.'&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
+  }else
+  {
+    $url='https://congress.api.sunlightfoundation.com/legislators?fields=party,chamber,district,state,bioguide_id,last_name,first_name&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
   }
   break;  
 case '2':
@@ -57,14 +79,57 @@ case '3':
   {
    if($search !="")
     {
-       $url='https://congress.api.sunlightfoundation.com/committees?fields=chamber,committee_id,name,parent_committee_id&chamber='.$sort.'&query='.$searchflag.'&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
+       $url='https://congress.api.sunlightfoundation.com/committees?fields=chamber,committee_id,name,parent_committee_id&chamber='.$sort.'&query='.$search.'&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
     }else{
         $url='https://congress.api.sunlightfoundation.com/committees?fields=chamber,committee_id,name,parent_committee_id&chamber='.$sort.'&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
     }
   }
   break;
 case '4':
-  
+    $tmp = [];
+    $datas = [];
+    $res = "";
+    $arrs = getArrays($store);
+    
+    if($sort == "legislator")
+    {
+      for($i=0;$i<count($arrs);$i++){
+          $html= "";
+          $url='https://congress.api.sunlightfoundation.com/legislators?fields=bioguide_id,first_name,last_name,oc_email,chamber,party,state_name&bioguide_id='.$arrs[$i].'&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
+          $html=file_get_contents($url);
+          $tmp = json_decode($html, true);
+          if($i==0){$datas = $tmp;}
+          else{$datas['results'][$i]=$tmp['results'][0];}
+      }
+      $res = json_encode($datas, true);      
+    }
+    else if($sort == "bill")
+    {
+      for($i=0;$i<count($arrs);$i++){
+          $html= "";
+          $url='https://congress.api.sunlightfoundation.com/bills?fields=bill_id,chamber,bill_type,official_title,sponsor,introduced_on&bill_id='.$arrs[$i].'&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
+          $html=file_get_contents($url);
+          $tmp = json_decode($html, true);
+          if($i==0){$datas = $tmp;}
+          else{$datas['results'][$i]=$tmp['results'][0];}
+      }
+      $res = json_encode($datas, true);  
+    }
+    else if($sort == "committee")
+    {
+      for($i=0;$i<count($arrs);$i++){
+          $html= "";
+          $url='https://congress.api.sunlightfoundation.com/committees?fields=chamber,committee_id,name,parent_committee_id,subcommittee&committee_id='.$arrs[$i].'&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
+          $html=file_get_contents($url);
+          $tmp = json_decode($html, true);
+          if($i==0){$datas = $tmp;}
+          else{$datas['results'][$i]=$tmp['results'][0];}
+      }
+      $res = json_encode($datas, true); 
+      
+    }
+  echo $res;
+  exit;
   break;
 default:
   
@@ -74,18 +139,6 @@ if($detail == "1" && $ids != '')
 	$url='https://congress.api.sunlightfoundation.com/legislators?fields=bioguide_id,title,first_name,last_name,oc_email,chamber,phone,party,term_start,term_end,office,state_name,fax,birthday,twitter_id,facebook_id,contact_form&bioguide_id='.$ids.'&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
     $html=file_get_contents($url);
     $array1 = json_decode($html, true);
-    /*get date*/
-    $birthday = strtotime($array1['results'][0]['birthday']);
-    $term_start = strtotime($array1['results'][0]['term_start']);
-    $term_end = strtotime($array1['results'][0]['term_end']);
-    $now = time();
-    $days=intval(round($now-$term_start)/round($term_end-$term_start)*100);
-    //echo $days;
-    //var_dump($array1['results'][0]['birthday']);
-    
-
-    //$urlbill='https://congress.api.sunlightfoundation.com/bills?fields=last_version.urls.pdf&sponsor.bioguide_id='.$bioguide_id.'&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
-
     $urlbill='https://congress.api.sunlightfoundation.com/bills?fields=bill_id,official_title,chamber,bill_type,congress,last_version.urls.pdf&sponsor.bioguide_id='.$ids.'&per_page=all&apikey=542bae46d15c4c5c99bb423075fda3a7';
     $html=file_get_contents($urlbill);
     $array2 = json_decode($html, true);
@@ -114,13 +167,6 @@ if($detail == "1" && $ids != '')
     {
         $arrcom[$i] = $array3['results'][$i];
     }
-    //var_dump($array3['results']);
-    //if()
-    //echo strtotime($array1['results'][0]['birthday']);
-    $array1['results'][0]['term'] = $days;
-    $array1['results'][0]['birthday'] = date('F j, Y',$birthday);
-    $array1['results'][0]['term_start'] = date('F j, Y',$term_start);
-    $array1['results'][0]['term_end'] = date('F j, Y',$term_end);
     $array1['results'][0]['bills'] = $arrbill; 
     $array1['results'][0]['committee'] = $arrcom;
     $res = json_encode($array1, true);
