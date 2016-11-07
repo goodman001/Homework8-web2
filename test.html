@@ -1,0 +1,222 @@
+<div class="rightpage"  ng-hide="flag2" >
+	<h2> Bills </h2>
+	<div id="myCarouselbill" class="carousel slide">
+		<div class="carousel-inner">
+			<div class="item active">
+				<ul id="myTab1" class="nav nav-tabs">
+					<li class="active"><a href="#billactive" data-toggle="tab" ng-click="dobill('back.php?bill=true')">Active Bills</a>
+					</li>
+					<li><a href="#billnew" data-toggle="tab" ng-click="dobill('back.php?bill=false')">New Bills</a></li>
+				</ul>
+				<div id="myTab1Content" class="tab-content">
+					<div class="tab-pane fade in active" id="billactive">
+						<div class="panel panel-default" style="margin:10px;">
+							<div class="panel-heading" style="height:60px;">
+								<div class="col-md-6"><h4>Active Bills</h4></div>
+								<div class="col-md-3 " ></div>
+								<div class="col-md-3" >
+									<div class="input-group">
+									  <input type="text" class="form-control" ng-model="bill" value="">
+									  <span class="input-group-addon"><a class="fa fa-search fa-1" ng-click="dobill('back.php?bill=true&searchflag=true')"></a></span>
+									</div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<table class="table">
+									<tr>
+										<th>Bill ID</th>
+										<th>Bill Type</th>
+										<th>Chamber</th>
+										<th>Introduced</th>
+										<th>Sponsor</th>
+										<th>View Details</th>
+									</tr>
+									<tr ng-repeat="x in billitems">
+										<td ng-bind="x.bill_id.toUpperCase()"></td>
+										<td ng-bind="x.bill_type.toUpperCase()"></td>
+										<td ng-if="x.chamber == 'house'"><ul class="list-inline"><li><img src="http://cs-server.usc.edu:45678/hw/hw8/images/h.png" class="img-responsive" style="width:20px;height:auto"></li><li>House</li></ul></td>
+										<td ng-if="x.chamber != 'house'"><ul class="list-inline"><li><img src="http://cs-server.usc.edu:45678/hw/hw8/images/s.svg" class="img-responsive" style="width:20px;height:auto"></li><li>Senate</li></ul></td>
+										<td ng-bind="x.introduced_on"></td>
+										<td>{{ x.sponsor.title }},{{ x.sponsor.last_name }},{{ x.sponsor.first_name }}</td>
+										<td ><a href="#myCarouselbill"  data-slide="next" ng-click="detail_part2('back.php?detail=2&billid='+x.bill_id)" class="btn btn-primary">View Details</a></td>
+									</tr>
+								</table>
+								<nav>
+									<ul class="pagination">
+										<li>
+											<a ng-click="selectPage(1)" >
+												<span>&nbsp;<<&nbsp;</span>
+											</a>
+										</li>
+										<li>
+										<a ng-click="Previous()">
+											<span>&nbsp;<&nbsp;</span>
+										</a>
+										</li>
+										<li ng-repeat="page in pageList" ng-class="{active: isActivePage(page)}" >
+										<a ng-click="selectPage(page)" >{{ page }}</a>
+										</li>
+										<li>
+										<a ng-click="Next()">
+											<span>&nbsp;>&nbsp;</span>
+										</a>
+										</li>
+										<li>
+											<a ng-click="selectPage(pages)" >
+												<span>&nbsp;>>&nbsp;</span>
+											</a>
+										</li>
+									</ul>
+								</nav>					
+							</div>
+
+
+						</div>
+
+					</div>
+					<div class="tab-pane fade" id="billnew">
+						<div class="panel panel-default" style="margin:10px;">
+							<div class="panel-heading" style="height:60px;">
+								<div class="col-md-6"><h4>New Bills</h4></div>
+								<div class="col-md-3 " ></div>
+								<div class="col-md-3" >
+									<div class="input-group">
+									  <input type="text" class="form-control" ng-model="bill" value="">
+									  <span class="input-group-addon"><a class="fa fa-search fa-1" ng-click="dobill('back.php?bill=false&searchflag=false')"></a></span>
+									</div>
+								</div>                                
+							</div>
+							<div class="panel-body">
+								<table class="table">
+									<tr>
+										<th>Bill ID</th>
+										<th>Bill Type</th>
+										<th>Chamber</th>
+										<th>Introduced</th>
+										<th>Sponsor</th>
+										<th>View Details</th>
+									</tr>
+									<tr ng-repeat="x in billitems">
+										<td ng-bind="x.bill_id.toUpperCase()"></td>
+										<td ng-bind="x.bill_type.toUpperCase()"></td>
+										<td ng-if="x.chamber == 'house'"><ul class="list-inline"><li><img src="http://cs-server.usc.edu:45678/hw/hw8/images/h.png" class="img-responsive" style="width:20px;height:auto"></li><li>House</li></ul></td>
+										<td ng-if="x.chamber != 'house'"><ul class="list-inline"><li><img src="http://cs-server.usc.edu:45678/hw/hw8/images/s.svg" class="img-responsive" style="width:20px;height:auto"></li><li>Senate</li></ul></td>
+										<td ng-bind="x.introduced_on"></td>
+										<td>{{ x.sponsor.title }},{{ x.sponsor.last_name }},{{ x.sponsor.first_name }}</td>
+										<td ><a href="#myCarouselbill"  data-slide="next" ng-click="detail_part2('back.php?detail=2&billid='+x.bill_id)" class="btn btn-primary">View Details</a></td>
+									</tr>
+								</table>
+								<nav>
+									<ul class="pagination">
+										<li>
+											<a ng-click="selectPage(1)" >
+												<span><<</span>
+											</a>
+										</li>
+										<li>
+										<a ng-click="Previous()">
+											<span><</span>
+										</a>
+										</li>
+										<li ng-repeat="page in pageList" ng-class="{active: isActivePage(page)}" >
+										<a ng-click="selectPage(page)" >{{ page }}</a>
+										</li>
+										<li>
+										<a ng-click="Next()">
+											<span>></span>
+										</a>
+										</li>
+										<li>
+											<a ng-click="selectPage(pages)" >
+												<span>>></span>
+											</a>
+										</li>
+									</ul>
+								</nav>					
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-default">
+						<div class="panel panel-default"  >
+							<div class="row">
+								<div class="col-md-6">
+									<a  href="#myCarouselbill" data-slide="prev" class="btn" style="background-color:white;border-color: #ccc;margin:3px;color:black">
+										<span class="glyphicon glyphicon-chevron-left"></span> 
+									</a>
+									Details
+								</div>
+								<div class="col-md-6 text-right">
+									<a ng-click="favorite(data_detail2[0].bill_id,'bill')" class="btn btn-default" ><span class="fa fa-star bill{{data_detail2[0].bill_id}}"></span> </a>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+								<div class="row">
+									<div class="col-md-6">
+										<table class="table">
+											<tr >
+												<td width="15%" >Bill ID</td>
+												<td width="85%" ng-bind="data_detail2[0].bill_id"></td>
+											</tr>
+											<tr >
+												<td>Bill Type</td>
+												<td ng-bind="data_detail2[0].bill_type"></td>
+											</tr>
+											<tr >
+												<td>Sponsor</td>
+												<td>{{ data_detail2[0].sponsor.title }},{{ data_detail2[0].sponsor.last_name }},{{data_detail2[0].sponsor.first_name }}</td>
+											</tr>
+											<tr >
+												<td>Chamber</td>
+												<td ng-bind="data_detail2[0].chamber"></td>
+											</tr>
+											<tr >
+												<td>Status</td>
+												<td ng-if="data_detail2[0].history.active == true">ACTIVE</td>
+												<td ng-if="data_detail2[0].history.active == false">NEW</td>
+											</tr>
+											<tr >
+												<td>Introduced On</td>
+												<td ng-bind="data_detail2[0].introduced_on"></td>
+											</tr>
+											<tr >
+												<td>Congress URL</td>
+												<td ><a href="{{data_detail2[0].urls.congress}}" target="_blank">URL</a></td>
+											</tr>
+											<tr >
+												<td>Version Status</td>
+												<td ng-bind="data_detail2[0].last_version.version_name"></td>
+											</tr>
+											<tr >
+												<td>Bill URL</td>
+												<td><a href="{{data_detail2[0].last_version.urls.pdf}}" target="_blank">URL</a></td>
+											</tr>
+										</table>
+									</div>
+									<div class="col-md-6">
+										   <object classid="clsid:CA8A9780-280D-11CF-A24D-444553540000" width="100%" height="800px" border="0">  
+												<param name="_Version" value="65539">  
+												<param name="_ExtentX" value="20108">  
+												<param name="_ExtentY" value="10866">  
+												<param name="_StockProps" value="0">  
+												<param name="SRC" value="{{data_detail2[0].last_version.urls.pdf}}">  
+												<object data="{{data_detail2[0].last_version.urls.pdf}}" type="application/pdf" width="100%" height="800px">   
+												</object>  
+											</object>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>                    
+			</div>
+		</div>
+	</div>
+</div>

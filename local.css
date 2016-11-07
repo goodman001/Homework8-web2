@@ -1,0 +1,45 @@
+.container
+{
+   width:100%;
+}
+.navbar
+{
+   margin-bottom:0px;
+}
+#navleft
+{
+   background-color: #222222;
+   font-color:white;
+   height:1000px;
+   margin-top:0px;
+   //position: fixed;
+}
+.span3
+{
+   padding-top:10px;
+}
+.span3 ul li a
+{
+   color: #585858;
+   font-size:18px; 
+}
+.span3 ul li a:hover
+{
+   color: #FFFFFF;
+   background-color:#222222;
+}
+#rightmain
+{
+   background-color:#eee;
+}
+.panel-default
+{
+   margin-top:10px;
+}
+@media screen and (max-width: 414px)  
+{
+   .span3 li a label
+   {
+     display: none;
+   } 
+}
