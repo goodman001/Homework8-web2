@@ -22,7 +22,7 @@
             </div>
             <div class="col-sm-11" ng-hide="flagnav">
                 <ul class="list-inline text-center" style="margin-top:0px">
-                    <li class="navs"><img src="http://cs-server.usc.edu:45678/hw/hw8/images/logo.png" /></li>
+                    <li class="navs"><a href="http://sunlightfoundation.com/"><img src="http://cs-server.usc.edu:45678/hw/hw8/images/logo.png" /></a></li>
                     <li class="navs"><h3>Congress Api</h3></li>
                 </ul>
 
@@ -907,7 +907,7 @@
                 </div>
                 <div class="rightpage"  ng-hide="flag4">
                     <h2>Favorites</h2>
-                    <div id="myCarouselfav" class="carousel slide">
+                    <div id="myCarouselfavorite" class="carousel slide">
                         <div class="carousel-inner">
                             <div class="item active">
                                 <ul id="myTabFav" class="nav nav-tabs">
@@ -947,7 +947,7 @@
                                                         <td ng-bind="x.chamber"></td>
                                                         <td ng-bind="x.state_name"></td>
                                                         <td><a href="http://{{x.oc_email}}" target="_blank">{{x.oc_email}}</a></td>
-                                                        <td ><a href="#myCarouselfav"  data-slide="next" ng-click="showDetail('mgr.php?detail=1&ids='+x.bioguide_id)"  class="btn btn-primary">View Details</a></td>
+                                                        <td ><a href="#myCarouselfavorite"  data-slide="next" ng-click="showDetail('mgr.php?detail=1&ids='+x.bioguide_id)"  class="btn btn-primary">View Details</a></td>
                                                     </tr>
                                                 </table>
                                                 <nav>
@@ -1010,7 +1010,7 @@
                                                         <td ng-bind="x.chamber"></td>
                                                         <td ng-bind="x.introduced_on"></td>
                                                         <td>{{ x.sponsor.title }},{{ x.sponsor.last_name }},{{ x.sponsor.first_name }}</td>
-                                                        <td ><a href="#myCarouselfav"  data-slide="next" ng-click="showDetail('mgr.php?detail=2&ids='+x.bill_id)" class="btn btn-primary">View Details</a></td>
+                                                        <td ><a href="#myCarouselfavorite"  data-slide="next" ng-click="showDetail('mgr.php?detail=2&ids='+x.bill_id)" class="btn btn-primary">View Details</a></td>
                                                     </tr>
                                                 </table>
                                                 <nav>
@@ -1111,7 +1111,7 @@
                                             <div class="panel panel-heading"  >
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <a ng-click="changecolor('legislator'+detaildata[0].bioguide_id)" href="#myCarouselfav" data-slide="prev" class="btn" style="background-color:white;border-color: #ccc;margin:3px;color:black">
+                                                        <a ng-click="changecolor('legislator'+detaildata[0].bioguide_id)" href="#myCarouselfavorite" data-slide="prev" class="btn" style="background-color:white;border-color: #ccc;margin:3px;color:black">
                                                             <span class="glyphicon glyphicon-chevron-left"></span> 
                                                         </a>
                                                         Details
@@ -1294,7 +1294,7 @@
                                             <div class="panel panel-heading"  >
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <a  href="#myCarouselfav" data-slide="prev" class="btn" style="background-color:white;border-color: #ccc;margin:3px;color:black">
+                                                        <a  href="#myCarouselfavorite" data-slide="prev" class="btn" style="background-color:white;border-color: #ccc;margin:3px;color:black">
                                                             <span class="glyphicon glyphicon-chevron-left"></span> 
                                                         </a>
                                                         Details
@@ -1309,41 +1309,41 @@
                                                         <div class="col-md-6">
                                                             <table class="table">
                                                                 <tr >
-                                                                    <th width="15%" >Bill ID</th>
-                                                                    <th width="85%" ng-bind="detaildata[0].bill_id"></th>
+                                                                    <td width="15%" >Bill ID</td>
+                                                                    <td width="85%" ng-bind="detaildata[0].bill_id"></td>
                                                                 </tr>
                                                                 <tr >
-                                                                    <th >Bill Type</th>
-                                                                    <th ng-bind="detaildata[0].bill_type"></th>
+                                                                    <td>Bill Type</td>
+                                                                    <td ng-bind="detaildata[0].bill_type"></td>
                                                                 </tr>
                                                                 <tr >
-                                                                    <th>Sponsor</th>
-                                                                    <th>{{ detaildata[0].sponsor.title }},{{ detaildata[0].sponsor.last_name }},{{detaildata[0].sponsor.first_name }}</th>
+                                                                    <td>Sponsor</td>
+                                                                    <td>{{ detaildata[0].sponsor.title }},{{ detaildata[0].sponsor.last_name }},{{detaildata[0].sponsor.first_name }}</td>
                                                                 </tr>
                                                                 <tr >
-                                                                    <th>Chamber</th>
-                                                                    <th ng-bind="detaildata[0].chamber"></th>
+                                                                    <td>Chamber</td>
+                                                                    <td ng-bind="detaildata[0].chamber"></td>
                                                                 </tr>
                                                                 <tr >
-                                                                    <th>Status</th>
-                                                                    <th ng-if="detaildata[0].history.active == true">ACTIVE</th>
-                                                                    <th ng-if="detaildata[0].history.active == false">NEW</th>
+                                                                    <td>Status</td>
+                                                                    <td ng-if="detaildata[0].history.active == true">ACTIVE</td>
+                                                                    <td ng-if="detaildata[0].history.active == false">NEW</td>
                                                                 </tr>
                                                                 <tr >
-                                                                    <th>Introduced On</th>
-                                                                    <th ng-bind="detaildata[0].introduced_on"></th>
+                                                                    <td>Introduced On</td>
+                                                                    <td ng-bind="detaildata[0].introduced_on"></td>
                                                                 </tr>
                                                                 <tr >
-                                                                    <th>Congress URL</th>
-                                                                    <th ><a href="{{detaildata[0].urls.congress}}" target="_blank">URL</a></th>
+                                                                    <td>Congress URL</td>
+                                                                    <td ><a href="{{detaildata[0].urls.congress}}" target="_blank">URL</a></td>
                                                                 </tr>
                                                                 <tr >
-                                                                    <th>Version Status</th>
-                                                                    <th ng-bind="detaildata[0].last_version.version_name"></th>
+                                                                    <td>Version Status</td>
+                                                                    <td ng-bind="detaildata[0].last_version.version_name"></td>
                                                                 </tr>
                                                                 <tr >
-                                                                    <th>Bill URL</th>
-                                                                    <th><a href="{{detaildata[0].last_version.urls.pdf}}" target="_blank">URL</a></th>
+                                                                    <td>Bill URL</td>
+                                                                    <td><a href="{{detaildata[0].last_version.urls.pdf}}" target="_blank">URL</a></td>
                                                                 </tr>
                                                             </table>
                                                         </div>
@@ -1384,11 +1384,7 @@ $('#myCarouselbill').carousel({
 pause: true,
 interval: false
 });
-$('#myCarouselcom').carousel({
-pause: true,
-interval: false
-});
-$('#myCarouselfav').carousel({
+$('#myCarouselfavorite').carousel({
 pause: true,
 interval: false
 });
